@@ -1,9 +1,17 @@
 package main
 
 import (
-	"file_manager/cmd/dir"
+	"file_manager/cmd/ui"
+	"fmt"
+	"os"
+
+	tea "github.com/charmbracelet/bubbletea"
 )
 
 func main() {
-	dir.ListDir("..")
+  p:=tea.NewProgram(ui.InitialModel())
+  if _, err := p.Run(); err != nil {
+    fmt.Printf("Error: %v", err)
+    os.Exit(1)
+  }
 }
