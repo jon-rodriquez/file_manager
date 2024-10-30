@@ -67,17 +67,17 @@ func (m model) View() string {
 		var folder string
 
 		if item.isDir == true {
-			folder = "📁"
+			folder = "\uf07c"
 		} else {
-			folder = "📄"
+			folder = "\uf15b"
 		}
 
 		if m.cursor == i {
 
-			temp := fmt.Sprintf("[%s] %s\n", folder, item.name)
+			temp := fmt.Sprintf("%s %s\n", folder, item.name)
 			s += selectedStyle.Render(temp)
 		} else {
-			s += fmt.Sprintf("[%s] %s\n", folder, item.name)
+			s += fmt.Sprintf("%s %s\n", folder, item.name)
 		}
 
 	}
