@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 )
 
 type Item struct {
@@ -19,14 +20,14 @@ type model struct {
 }
 
 func InitialModel() model {
-	dirs := dir.ListDir("..")
+	dirs := dir.ListDir()
 	currentDirItems := []Item{}
 
 	for _, item := range dirs {
 		currentDirItems = append(currentDirItems, Item{
 			name:  item.Name(),
-			path:  "../" + item.Name(),
-			isDir: true,
+			path:  item.Name(),
+			isDir: item.IsDir(),
 		})
 	}
 
@@ -61,14 +62,24 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m model) View() string {
 	s := "current dir\n"
-
+	selectedStyle := lipgloss.NewStyle().Background(lipgloss.Color("202"))
 	for i, item := range m.currDir {
-		cursor := " "
-		if m.cursor == i {
-			cursor = ">"
+		var folder string
+
+		if item.isDir == true {
+			folder = "📁"
+		} else {
+			folder = "📄"
 		}
 
-		s += fmt.Sprintf("%s %s\n", cursor, item.name)
+		if m.cursor == i {
+
+			temp := fmt.Sprintf("[%s] %s\n", folder, item.name)
+			s += selectedStyle.Render(temp)
+		} else {
+			s += fmt.Sprintf("[%s] %s\n", folder, item.name)
+		}
+
 	}
 	s += "\nPress q to quit.\n"
 
