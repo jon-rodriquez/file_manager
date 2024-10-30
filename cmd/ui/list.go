@@ -6,6 +6,7 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/lipgloss/list"
 )
 
 type Item struct {
@@ -61,9 +62,35 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m model) View() string {
-	s := "current dir\n"
-	selectedStyle := lipgloss.NewStyle().Background(lipgloss.Color("202"))
-	for i, item := range m.currDir {
+	baseStyle := lipgloss.NewStyle()
+
+	dimColor := lipgloss.Color("250")
+	hightlightColor := lipgloss.Color("#EE6FF8")
+
+	selected := m.cursor
+
+	l := list.New().Enumerator(func(_ list.Items, i int) string {
+		if i == selected {
+			return " "
+		}
+		return " "
+	}).
+		ItemStyleFunc(func(_ list.Items, i int) lipgloss.Style {
+			st := baseStyle
+			if selected == i {
+				return st.Foreground(hightlightColor).Background(lipgloss.Color("236"))
+			}
+			return st.Foreground(dimColor)
+		}).
+		EnumeratorStyleFunc(func(_ list.Items, i int) lipgloss.Style {
+			if selected == i {
+				return lipgloss.NewStyle().Foreground(hightlightColor)
+			}
+			return lipgloss.NewStyle().Foreground(dimColor)
+		})
+
+	for _, item := range m.currDir {
+
 		var folder string
 
 		if item.isDir == true {
@@ -71,17 +98,10 @@ func (m model) View() string {
 		} else {
 			folder = "\uf15b"
 		}
-
-		if m.cursor == i {
-
-			temp := fmt.Sprintf("%s %s\n", folder, item.name)
-			s += selectedStyle.Render(temp)
-		} else {
-			s += fmt.Sprintf("%s %s\n", folder, item.name)
-		}
-
+		l.Item(folder + " " + item.name)
 	}
-	s += "\nPress q to quit.\n"
+
+	s := fmt.Sprintf("%s", l)
 
 	return s
 }
