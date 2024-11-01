@@ -69,7 +69,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.cursor--
 			}
 		case "h":
-      //TODO: need to handle the case when the current directory is root directory
+			// TODO: need to handle the case when the current directory is root directory
+			// currently throws an error
 			parentDir, dirs := dir.MoveToParentDir(m.currentDirPath)
 			m.currentDirPath = parentDir
 			currentDirItems := []Item{}
@@ -82,8 +83,22 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.currDir = currentDirItems
 			}
 			m.cursor = 0
-    case "l":
-      
+		case "l":
+			if m.currDir[m.cursor].isDir {
+				m.currentDirPath = m.currentDirPath + "/" + m.currDir[m.cursor].name
+				dirs := dir.ListDir(m.currentDirPath)
+				currentDirItems := []Item{}
+				for _, item := range dirs {
+					currentDirItems = append(currentDirItems, Item{
+						name:  item.Name(),
+						path:  item.Name(),
+						isDir: item.IsDir(),
+					})
+					m.currDir = currentDirItems
+				}
+				m.cursor = 0
+			}
+
 		}
 	}
 	return m, nil
