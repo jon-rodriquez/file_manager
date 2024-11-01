@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/fs"
 	"os"
+	"strings"
 )
 
 func ListDir(currentDir string) []fs.DirEntry {
@@ -16,7 +17,11 @@ func ListDir(currentDir string) []fs.DirEntry {
 	return list
 }
 
-func MoveToParentDir(currentDir string) []fs.DirEntry {
-	parentDir := currentDir + "/.."
-	return ListDir(parentDir)
+func MoveToParentDir(currentDir string) (string, []fs.DirEntry) {
+  splitDir := strings.Split(currentDir, "/")
+  if len(splitDir) > 1 {
+    splitDir = splitDir[:len(splitDir)-1]
+  }
+  parentDir := strings.Join(splitDir, "/")
+	return parentDir, ListDir(parentDir)
 }
