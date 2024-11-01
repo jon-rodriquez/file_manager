@@ -3,6 +3,7 @@ package ui
 import (
 	"file_manager/cmd/dir"
 	"fmt"
+	"os"
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
@@ -16,13 +17,17 @@ type Item struct {
 }
 
 type model struct {
-	currDir []Item
-	cursor  int
+	currDir        []Item
+	childDir       []Item
+	currentDirPath string
+	cursor         int
 }
 
 func InitialModel() model {
-	dirs := dir.ListDir()
+	currentDirPath, _ := os.Getwd()
+	dirs := dir.ListDir(currentDirPath)
 	currentDirItems := []Item{}
+	childDirItems := []Item{}
 
 	for _, item := range dirs {
 		currentDirItems = append(currentDirItems, Item{
@@ -30,11 +35,18 @@ func InitialModel() model {
 			path:  item.Name(),
 			isDir: item.IsDir(),
 		})
+		childDirItems = append(currentDirItems, Item{
+			name:  item.Name(),
+			path:  item.Name(),
+			isDir: item.IsDir(),
+		})
 	}
 
 	return model{
-		currDir: currentDirItems,
-		cursor:  0,
+		currDir:        currentDirItems,
+		childDir:       childDirItems,
+		currentDirPath: currentDirPath,
+		cursor:         0,
 	}
 }
 
@@ -56,6 +68,19 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if m.cursor > 0 {
 				m.cursor--
 			}
+		case "h":
+			m.currentDirPath = m.currentDirPath + "/.."
+			dirs := dir.MoveToParentDir(m.currentDirPath)
+			currentDirItems := []Item{}
+			for _, item := range dirs {
+				currentDirItems = append(currentDirItems, Item{
+					name:  item.Name(),
+					path:  item.Name(),
+					isDir: item.IsDir(),
+				})
+				m.currDir = currentDirItems
+			}
+			m.cursor = 0
 		}
 	}
 	return m, nil
