@@ -59,11 +59,13 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.currentDirPath = parentDir
 			m.currDir = dirs
 			m.cursor = 0
+			m.updateChildDir()
 		case "l":
 			if m.currDir[m.cursor].IsDir {
 				m.currentDirPath = m.currentDirPath + "/" + m.currDir[m.cursor].Name
 				m.currDir = dir.GetDirItems(m.currentDirPath)
 				m.cursor = 0
+				m.updateChildDir()
 			}
 
 		}
