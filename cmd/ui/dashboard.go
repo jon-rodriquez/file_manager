@@ -8,7 +8,12 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
+type windowSize struct {
+	width  int
+	height int
+}
 type model struct {
+	windowSize     windowSize
 	currDir        []dir.Item
 	childDir       []dir.Item
 	currentDirPath string
@@ -69,6 +74,10 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 
 		}
+	case tea.WindowSizeMsg:
+		m.windowSize.width = msg.Width
+		m.windowSize.height = msg.Height
+
 	}
 	return m, nil
 }
