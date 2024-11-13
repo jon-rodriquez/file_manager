@@ -11,7 +11,7 @@ import (
 func ListView(items []dir.Item, cursor int) string {
 	baseStyle := lipgloss.NewStyle()
 	dimColor := lipgloss.Color("250")
-	hightlightColor := lipgloss.Color("#EE6FF8")
+	hightlightColor := lipgloss.Color("#ff7f36")
 
 	selected := cursor
 
@@ -24,7 +24,7 @@ func ListView(items []dir.Item, cursor int) string {
 		ItemStyleFunc(func(_ list.Items, i int) lipgloss.Style {
 			st := baseStyle
 			if selected == i {
-				return st.Foreground(hightlightColor).Background(lipgloss.Color("236"))
+				return st.Foreground(hightlightColor).Background(lipgloss.Color("236")).Width(29)
 			}
 			return st.Foreground(dimColor)
 		}).

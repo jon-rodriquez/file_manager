@@ -83,10 +83,18 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m model) View() string {
-	return lipgloss.JoinHorizontal(
+	columnStyle := lipgloss.NewStyle().Width(60).Border(lipgloss.NormalBorder()).Height(40)
+	searchStyle := lipgloss.NewStyle().Width(122).Border(lipgloss.NormalBorder()).Height(2)
+	rightNavStyle := lipgloss.NewStyle().Width(30).Border(lipgloss.NormalBorder()).Height(2)
+	folderSelectStyle := lipgloss.NewStyle().Width(30).Border(lipgloss.NormalBorder()).Height(19)
+
+	RightNav := lipgloss.JoinVertical(lipgloss.Top, rightNavStyle.Render("File Manager"), folderSelectStyle.Render("Favorites"), folderSelectStyle.Render("Recents"))
+	mainSection := lipgloss.JoinVertical(lipgloss.Top, searchStyle.Render("Search"), lipgloss.JoinHorizontal(
 		lipgloss.Left,
-		ListView(m.currDir, m.cursor),
-		ListView(m.childDir, -1))
+		columnStyle.Render(ListView(m.currDir, m.cursor)),
+		columnStyle.Render(ListView(m.childDir, -1))),
+	)
+	return lipgloss.JoinHorizontal(lipgloss.Left, RightNav, mainSection)
 }
 
 func (m *model) updateChildDir() {
