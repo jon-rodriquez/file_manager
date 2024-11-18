@@ -8,12 +8,15 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
+var HIGHLIGHT_COLOR = lipgloss.Color("#ff7f36")
+
 type windowSize struct {
 	width  int
 	height int
 }
 type model struct {
 	windowSize     windowSize
+	selectedPane   int
 	currDir        []dir.Item
 	childDir       []dir.Item
 	currentDirPath string
@@ -34,6 +37,7 @@ func InitialModel() model {
 		childDir:       childDirItems,
 		currentDirPath: currentDirPath,
 		cursor:         0,
+		selectedPane:   5,
 	}
 }
 
@@ -72,6 +76,14 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				m.cursor = 0
 				m.updateChildDir()
 			}
+		case "1":
+			m.selectedPane = 1
+		case "2":
+			m.selectedPane = 2
+		case "3":
+			m.selectedPane = 3
+		case "4":
+			m.selectedPane = 4
 
 		}
 	case tea.WindowSizeMsg:
@@ -85,11 +97,9 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	columnStyle := lipgloss.NewStyle().Width(60).Border(lipgloss.NormalBorder()).Height(40)
 	searchStyle := lipgloss.NewStyle().Width(122).Border(lipgloss.NormalBorder()).Height(2)
-	rightNavStyle := lipgloss.NewStyle().Width(30).Border(lipgloss.NormalBorder()).Height(2)
-	folderSelectStyle := lipgloss.NewStyle().Width(30).Border(lipgloss.NormalBorder()).Height(19)
 
-	RightNav := lipgloss.JoinVertical(lipgloss.Top, rightNavStyle.Render("File Manager"), folderSelectStyle.Render("Favorites"), folderSelectStyle.Render("Recents"))
-	mainSection := lipgloss.JoinVertical(lipgloss.Top, searchStyle.Render("Search"), lipgloss.JoinHorizontal(
+	RightNav := lipgloss.JoinVertical(lipgloss.Top, FileManagerPane(m.selectedPane), FavoritesPane(m.selectedPane), RecentsPane(m.selectedPane))
+	mainSection := lipgloss.JoinVertical(lipgloss.Top, searchStyle.Render("Search[4]"), lipgloss.JoinHorizontal(
 		lipgloss.Left,
 		columnStyle.Render(ListView(m.currDir, m.cursor)),
 		columnStyle.Render(ListView(m.childDir, -1))),
