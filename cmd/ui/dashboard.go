@@ -15,8 +15,11 @@ type windowSize struct {
 	height int
 }
 type model struct {
-	windowSize     windowSize
-	selectedPane   int
+	windowSize   windowSize
+	selectedPane int
+	// maybe an array of panes.
+	// those panes will have the render function for the specific pane but also a funciton that returns main view section.
+
 	currDir        []dir.Item
 	childDir       []dir.Item
 	currentDirPath string
@@ -101,7 +104,7 @@ func (m model) View() string {
 	RightNav := lipgloss.JoinVertical(lipgloss.Top, FileManagerPane(m.selectedPane), FavoritesPane(m.selectedPane), RecentsPane(m.selectedPane))
 	mainSection := lipgloss.JoinVertical(lipgloss.Top, searchStyle.Render("Search[4]"), lipgloss.JoinHorizontal(
 		lipgloss.Left,
-		columnStyle.Render(ListView(m.currDir, m.cursor)),
+		ParentDirPane(m.selectedPane, m.currDir, m.cursor),
 		columnStyle.Render(ListView(m.childDir, -1))),
 	)
 	return lipgloss.JoinHorizontal(lipgloss.Left, RightNav, mainSection)
