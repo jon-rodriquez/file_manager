@@ -1,12 +1,15 @@
 package ui
 
-import "github.com/charmbracelet/lipgloss"
+import (
+	"file_manager/cmd/dir"
+)
 
 func RecentsPane(currentSelectedPane int) string {
-	folderSelectStyle := lipgloss.NewStyle().Width(30).Border(lipgloss.NormalBorder()).Height(19)
+	return Pane("Recents", RenderRecentsPaneList(), 30, 19, currentSelectedPane == 3)
+}
 
-	if currentSelectedPane == 3 {
-		folderSelectStyle = folderSelectStyle.BorderForeground(HIGHLIGHT_COLOR)
-	}
-	return folderSelectStyle.Render("Recents[3]")
+func RenderRecentsPaneList() string {
+	items := []dir.Item{}
+	cursor := 0
+	return ListView(items, cursor)
 }

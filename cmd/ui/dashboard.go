@@ -99,10 +99,9 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 func (m model) View() string {
 	columnStyle := lipgloss.NewStyle().Width(60).Border(lipgloss.NormalBorder()).Height(40)
-	searchStyle := lipgloss.NewStyle().Width(122).Border(lipgloss.NormalBorder()).Height(2)
 
 	RightNav := lipgloss.JoinVertical(lipgloss.Top, FileManagerPane(m.selectedPane), FavoritesPane(m.selectedPane), RecentsPane(m.selectedPane))
-	mainSection := lipgloss.JoinVertical(lipgloss.Top, searchStyle.Render("Search[4]"), lipgloss.JoinHorizontal(
+	mainSection := lipgloss.JoinVertical(lipgloss.Top, SearchPane(m.selectedPane), lipgloss.JoinHorizontal(
 		lipgloss.Left,
 		ParentDirPane(m.selectedPane, m.currDir, m.cursor),
 		columnStyle.Render(ListView(m.childDir, -1))),
