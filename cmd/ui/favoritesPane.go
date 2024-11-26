@@ -1,11 +1,18 @@
 package ui
 
-import "github.com/charmbracelet/lipgloss"
+import (
+	"file_manager/cmd/dir"
+)
 
 func FavoritesPane(currentSelectedPane int) string {
-	folderSelectStyle := lipgloss.NewStyle().Width(30).Border(lipgloss.NormalBorder()).Height(19)
+	// Print the styled content with the title
+	return Pane("Favorites", RenderFavoritesPaneList(), 30, 19, currentSelectedPane == 2)
+}
 
-	if currentSelectedPane == 2 {
-		folderSelectStyle = folderSelectStyle.BorderForeground(HIGHLIGHT_COLOR)
-	}
-	return folderSelectStyle.Render("Favorites[2]") }
+// Print the styled content with a title
+
+func RenderFavoritesPaneList() string {
+	items := dir.GetFavorties()
+	cursor := 0
+	return ListView(items, cursor)
+}
