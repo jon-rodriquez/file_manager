@@ -2,12 +2,10 @@
 
 ## Description
 
-File manager that allow you to easier navigate through your computers directory.
-The idea would be to replace MacOS Finder as I find it frustrating to use.
+File manager that allows you to navigate through your computer's directory using Vim-style keybindings.
+Terminal-based Mac OS finder replacement. 
 
-Testing out Go lang as a programming language.
-
-Still at the very early stages.
+Still in the very early stages.
 
 Draft of basic design
 
