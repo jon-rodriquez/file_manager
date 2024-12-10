@@ -1,7 +1,10 @@
 package ui
 
 import (
+	"file_manager/cmd/components"
 	"file_manager/cmd/dir"
+	"file_manager/cmd/favorites"
+	"file_manager/cmd/types"
 	"os"
 
 	tea "github.com/charmbracelet/bubbletea"
@@ -19,9 +22,8 @@ type model struct {
 	selectedPane int
 	// maybe an array of panes.
 	// those panes will have the render function for the specific pane but also a funciton that returns main view section.
-
-	currDir        []dir.Item
-	childDir       []dir.Item
+	currDir        []types.Item
+	childDir       []types.Item
 	currentDirPath string
 	cursor         int
 }
@@ -29,7 +31,7 @@ type model struct {
 func InitialModel() model {
 	currentDirPath, _ := os.Getwd()
 	currentDirItems := dir.GetDirItems(currentDirPath)
-	childDirItems := []dir.Item{}
+	childDirItems := []types.Item{}
 
 	if currentDirItems[0].IsDir {
 		childDirItems = dir.GetDirItems(currentDirPath + "/" + currentDirItems[0].Name)
@@ -100,11 +102,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	columnStyle := lipgloss.NewStyle().Width(60).Border(lipgloss.NormalBorder()).Height(40)
 
-	RightNav := lipgloss.JoinVertical(lipgloss.Top, FileManagerPane(m.selectedPane), FavoritesPane(m.selectedPane), RecentsPane(m.selectedPane))
+	RightNav := lipgloss.JoinVertical(lipgloss.Top, FileManagerPane(m.selectedPane), favorites.FavoritesPane(m.selectedPane), RecentsPane(m.selectedPane))
 	mainSection := lipgloss.JoinVertical(lipgloss.Top, SearchPane(m.selectedPane), lipgloss.JoinHorizontal(
 		lipgloss.Left,
 		ParentDirPane(m.selectedPane, m.currDir, m.cursor),
-		columnStyle.Render(ListView(m.childDir, -1))),
+		columnStyle.Render(components.ListView(m.childDir, -1))),
 	)
 	return lipgloss.JoinHorizontal(lipgloss.Left, RightNav, mainSection)
 }
@@ -113,6 +115,6 @@ func (m *model) updateChildDir() {
 	if m.currDir[m.cursor].IsDir {
 		m.childDir = dir.GetDirItems(m.currentDirPath + "/" + m.currDir[m.cursor].Name)
 	} else {
-		m.childDir = []dir.Item{}
+		m.childDir = []types.Item{}
 	}
 }

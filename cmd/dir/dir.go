@@ -1,19 +1,14 @@
 package dir
 
 import (
+  "file_manager/cmd/types"
 	"fmt"
 	"io/fs"
 	"os"
 	"strings"
 )
 
-type Item struct {
-	Name  string
-	Path  string
-	IsDir bool
-}
-
-func MoveToParentDir(currentDir string) (string, []Item) {
+func MoveToParentDir(currentDir string) (string, []types.Item) {
 	splitDir := strings.Split(currentDir, "/")
 	if len(splitDir) > 1 {
 		splitDir = splitDir[:len(splitDir)-1]
@@ -22,11 +17,11 @@ func MoveToParentDir(currentDir string) (string, []Item) {
 	return parentDir, GetDirItems(parentDir)
 }
 
-func GetDirItems(dirPath string) []Item {
-	items := []Item{}
+func GetDirItems(dirPath string) []types.Item {
+	items := []types.Item{}
 	childDirs := ListDir(dirPath)
 	for _, item := range childDirs {
-		items = append(items, Item{
+		items = append(items, types.Item{
 			Name:  item.Name(),
 			Path:  item.Name(),
 			IsDir: item.IsDir(),

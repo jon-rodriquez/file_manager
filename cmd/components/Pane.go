@@ -1,10 +1,12 @@
-package ui
+package components
 
 import (
 	"strings"
 
 	"github.com/charmbracelet/lipgloss"
 )
+
+var HIGHLIGHT_COLOR = lipgloss.Color("#ff7f36")
 
 func Pane(title string, content string, width int, height int, isSelected bool) string {
 	borderStyle := lipgloss.NewStyle().

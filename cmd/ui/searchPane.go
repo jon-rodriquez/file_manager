@@ -1,5 +1,7 @@
 package ui
 
+import "file_manager/cmd/components"
+
 func SearchPane(currentSelectedPane int) string {
-	return Pane("Search", "", 122, 2, currentSelectedPane == 4)
+	return components.Pane("Search", "", 122, 2, currentSelectedPane == 4)
 }

@@ -1,14 +1,14 @@
-package ui
+package components
 
 import (
-	"file_manager/cmd/dir"
+	"file_manager/cmd/types"
 	"fmt"
 
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/lipgloss/list"
 )
 
-func ListView(items []dir.Item, cursor int) string {
+func ListView(items []types.Item, cursor int) string {
 	baseStyle := lipgloss.NewStyle()
 	dimColor := lipgloss.Color("250")
 	hightlightColor := lipgloss.Color("#ff7f36")

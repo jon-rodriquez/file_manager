@@ -1,5 +1,7 @@
 package ui
 
+import "file_manager/cmd/components"
+
 func FileManagerPane(currentSelectedPane int) string {
-	return Pane("File Manager", "", 30, 2, currentSelectedPane == 1)
+	return components.Pane("File Manager", "", 30, 2, currentSelectedPane == 1)
 }

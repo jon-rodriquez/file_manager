@@ -1,7 +1,11 @@
-package dir
+package favorites
 
-func GetFavorties() []Item {
-	favs := []Item{
+import (
+	"file_manager/cmd/types"
+)
+
+func GetFavorties() []types.Item {
+	favs := []types.Item{
 		{
 			Name:  "Documents",
 			Path:  "/Users/jonathanrodriquez/Documents",
