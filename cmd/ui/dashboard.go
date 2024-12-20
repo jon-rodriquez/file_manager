@@ -26,6 +26,7 @@ type model struct {
 	childDir       []types.Item
 	currentDirPath string
 	cursor         int
+	panes          []types.Pane
 }
 
 func InitialModel() model {
@@ -43,6 +44,10 @@ func InitialModel() model {
 		currentDirPath: currentDirPath,
 		cursor:         0,
 		selectedPane:   5,
+		panes: []types.Pane{
+			nil,
+			favorites.NewFavoritesPane(),
+		},
 	}
 }
 
@@ -102,7 +107,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	columnStyle := lipgloss.NewStyle().Width(60).Border(lipgloss.NormalBorder()).Height(40)
 
-	RightNav := lipgloss.JoinVertical(lipgloss.Top, FileManagerPane(m.selectedPane), favorites.FavoritesPane(m.selectedPane), RecentsPane(m.selectedPane))
+	RightNav := lipgloss.JoinVertical(lipgloss.Top, FileManagerPane(m.selectedPane), m.panes[1].RenderPane(m.cursor), RecentsPane(m.selectedPane))
 	mainSection := lipgloss.JoinVertical(lipgloss.Top, SearchPane(m.selectedPane), lipgloss.JoinHorizontal(
 		lipgloss.Left,
 		ParentDirPane(m.selectedPane, m.currDir, m.cursor),
