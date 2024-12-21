@@ -8,6 +8,10 @@ import (
 )
 
 type FavoritesPane struct {
+	name                   string
+	width                  int
+	height                 int
+	location               int
 	cursor                 int
 	favoritesList          []types.Item
 	childrenOfSelectedItem []types.Item
@@ -20,12 +24,16 @@ func NewFavoritesPane() *FavoritesPane {
 }
 
 func (pane *FavoritesPane) Initialize() {
+	pane.name = "Favorites"
+	pane.width = 30
+	pane.height = 19
+	pane.location = 2
 	pane.favoritesList = GetFavorties()
 	pane.cursor = 0
 	pane.childrenOfSelectedItem = []types.Item{}
 }
 
-func (pane *FavoritesPane) Update(msg tea.Msg) (*FavoritesPane, tea.Cmd) {
+func (pane *FavoritesPane) Update(msg tea.Msg) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		switch msg.String() {
@@ -39,12 +47,11 @@ func (pane *FavoritesPane) Update(msg tea.Msg) (*FavoritesPane, tea.Cmd) {
 			}
 		}
 	}
-	return pane, nil
 }
 
-func (pane *FavoritesPane) RenderPane(currentSelectedPane int) string {
+func (pane *FavoritesPane) RenderPane(selectedPane int) string {
 	// Print the styled content with the title
-	return components.Pane("Favorites", pane.renderFavoritesPaneList(), 30, 19, currentSelectedPane == 2)
+	return components.Pane(pane.name, pane.renderFavoritesPaneList(), pane.width, pane.height, selectedPane == pane.location)
 }
 
 // Print the styled content with a title
