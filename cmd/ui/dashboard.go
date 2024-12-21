@@ -3,6 +3,7 @@ package ui
 import (
 	"file_manager/cmd/favorites"
 	fileManagerPane "file_manager/cmd/fileManager"
+	"file_manager/cmd/recents"
 	"file_manager/cmd/types"
 	"os"
 
@@ -32,6 +33,7 @@ func InitialModel() model {
 		panes: []types.Pane{
 			fileManagerPane.NewFileManagerPane(),
 			favorites.NewFavoritesPane(),
+			recents.NewRecentsPane(),
 		},
 	}
 }
@@ -57,8 +59,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.selectedPane = 1
 		case "2":
 			m.selectedPane = 2
-			// case "3":
-			// m.selectedPane = 3
+		case "3":
+			m.selectedPane = 3
 			// case "4":
 			// m.selectedPane = 4
 
@@ -74,7 +76,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m model) View() string {
 	// columnStyle := lipgloss.NewStyle().Width(60).Border(lipgloss.NormalBorder()).Height(40)
 
-	RightNav := lipgloss.JoinVertical(lipgloss.Top, m.panes[0].RenderPane(m.selectedPane), m.panes[1].RenderPane(m.selectedPane), RecentsPane(m.selectedPane))
+	RightNav := lipgloss.JoinVertical(lipgloss.Top, m.panes[0].RenderPane(m.selectedPane), m.panes[1].RenderPane(m.selectedPane), m.panes[2].RenderPane(m.selectedPane))
 	mainSection := lipgloss.JoinVertical(lipgloss.Top, SearchPane(m.selectedPane))
 
 	return lipgloss.JoinHorizontal(lipgloss.Left, RightNav, mainSection)

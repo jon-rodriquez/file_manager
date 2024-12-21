@@ -2,7 +2,7 @@ package ui
 
 import (
 	"file_manager/cmd/components"
-  "file_manager/cmd/types"
+	"file_manager/cmd/types"
 )
 
 func RecentsPane(currentSelectedPane int) string {
