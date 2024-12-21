@@ -61,8 +61,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.selectedPane = 2
 		case "3":
 			m.selectedPane = 3
-			// case "4":
-			// m.selectedPane = 4
+		case "4":
+			m.selectedPane = 4
 
 		}
 	case tea.WindowSizeMsg:
