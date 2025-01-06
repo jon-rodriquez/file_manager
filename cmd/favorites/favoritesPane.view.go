@@ -59,6 +59,5 @@ func (pane *FavoritesPane) renderFavoritesPaneList() string {
 	if pane.favoritesList == nil {
 		pane.favoritesList = GetFavorties()
 	}
-	cursor := 0
-	return components.ListView(pane.favoritesList, cursor)
+	return components.ListView(pane.favoritesList, pane.cursor)
 }

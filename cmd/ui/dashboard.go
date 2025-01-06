@@ -51,8 +51,11 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "q":
 			return m, tea.Quit
 		case "j":
+			selected.Update(msg)
 		case "k":
+			selected.Update(msg)
 		case "h":
+			selected.Update(msg)
 		case "l":
 			selected.Update(msg)
 		case "1":
