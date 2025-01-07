@@ -2,6 +2,7 @@ package favorites
 
 import (
 	"file_manager/cmd/components"
+	"file_manager/cmd/dir"
 	"file_manager/cmd/types"
 
 	tea "github.com/charmbracelet/bubbletea"
@@ -40,10 +41,12 @@ func (pane *FavoritesPane) Update(msg tea.Msg) {
 		case "j":
 			if pane.cursor < len(pane.favoritesList)-1 {
 				pane.cursor++
+				pane.childrenOfSelectedItem = dir.GetDirItems(pane.favoritesList[pane.cursor].Path)
 			}
 		case "k":
 			if pane.cursor > 0 {
 				pane.cursor--
+				pane.childrenOfSelectedItem = dir.GetDirItems(pane.favoritesList[pane.cursor].Path)
 			}
 		}
 	}
@@ -60,4 +63,8 @@ func (pane *FavoritesPane) renderFavoritesPaneList() string {
 		pane.favoritesList = GetFavorties()
 	}
 	return components.ListView(pane.favoritesList, pane.cursor)
+}
+
+func (pane *FavoritesPane) RenderMainPane() string {
+	return components.Pane(pane.favoritesList[pane.cursor].Name, components.ListView(pane.childrenOfSelectedItem, 0), pane.width, 30, false)
 }

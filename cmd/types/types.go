@@ -20,8 +20,13 @@ type Updater interface {
 	Update(msg tea.Msg)
 }
 
+type MainPaneRenderer interface {
+	RenderMainPane() string
+}
+
 type Pane interface {
 	Initializer
 	PaneRenderer
 	Updater
+	MainPaneRenderer
 }

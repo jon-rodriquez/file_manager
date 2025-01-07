@@ -80,7 +80,7 @@ func (m model) View() string {
 	// columnStyle := lipgloss.NewStyle().Width(60).Border(lipgloss.NormalBorder()).Height(40)
 
 	RightNav := lipgloss.JoinVertical(lipgloss.Top, m.panes[0].RenderPane(m.selectedPane), m.panes[1].RenderPane(m.selectedPane), m.panes[2].RenderPane(m.selectedPane))
-	mainSection := lipgloss.JoinVertical(lipgloss.Top, SearchPane(m.selectedPane))
+	mainSection := lipgloss.JoinVertical(lipgloss.Top, SearchPane(m.selectedPane), m.panes[m.selectedPane-1].RenderMainPane())
 
 	return lipgloss.JoinHorizontal(lipgloss.Left, RightNav, mainSection)
 }

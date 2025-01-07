@@ -39,3 +39,7 @@ func (pane *RecentsPane) Update(msg tea.Msg) {
 func (pane *RecentsPane) RenderPane(selectedPane int) string {
 	return components.Pane(pane.name, "", pane.width, pane.height, selectedPane == pane.location)
 }
+
+func (pane *RecentsPane) RenderMainPane() string {
+	return "Recents"
+}

@@ -33,3 +33,7 @@ func (pane *FileManagerPane) Update(msg tea.Msg) {
 func (pane *FileManagerPane) RenderPane(selectedPane int) string {
 	return components.Pane(pane.name, "", pane.width, pane.height, selectedPane == pane.location)
 }
+
+func (pane *FileManagerPane) RenderMainPane() string {
+  return ""
+}
