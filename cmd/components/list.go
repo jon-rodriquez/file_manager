@@ -35,7 +35,14 @@ func ListView(items []types.Item, cursor int) string {
 			return lipgloss.NewStyle().Foreground(dimColor)
 		})
 
-	for _, item := range items {
+	limit := 20
+
+	if len(items) < 20 {
+		limit = len(items)
+	}
+
+	for i := 0; i < limit; i++ {
+		item := items[i]
 
 		var folder string
 

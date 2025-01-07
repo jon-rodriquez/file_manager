@@ -66,5 +66,5 @@ func (pane *FavoritesPane) renderFavoritesPaneList() string {
 }
 
 func (pane *FavoritesPane) RenderMainPane() string {
-	return components.Pane(pane.favoritesList[pane.cursor].Name, components.ListView(pane.childrenOfSelectedItem, 0), pane.width, 30, false)
+	return components.Pane(pane.favoritesList[pane.cursor].Name, components.ListView(pane.childrenOfSelectedItem, -1), 60, 30, true)
 }
